@@ -27,7 +27,7 @@ Aclimatadas <- Mujeres %>%
 
 # 2.1.1 Todos los hombres
 
-Datos_hombres <- as.list(Hombres[,c(11:17, 20:23, 27:30,32:38, 40:33, 46:49, 166:184,
+Datos_hombres <- as.list(Hombres[,c(124, 125, 166:184,
                                     186:194, 196:201)])
 
 
@@ -43,7 +43,7 @@ names(Normalidad_males_p) <- names(Datos_hombres)
 
 # 2.1.2 Nativos
 
-Datos_nativos<- as.list(Nativos[,c(11:17, 20:23, 27:30,32:38, 40:33, 46:49, 166:184,
+Datos_nativos<- as.list(Nativos[,c(124, 125, 166:184,
                                            186:194, 196:201)])
 
 Normalidad_nativos <- lapply(names(Datos_nativos), function (x)
@@ -59,7 +59,7 @@ names(Normalidad_nat_p) <- names(Datos_nativos)
 
 # 2.1.3 Aclimatados
 
-Datos_aclimatados<- as.list(Aclimatados[,c(11:17, 20:23, 27:30,32:38, 40:33, 46:49, 166:184,
+Datos_aclimatados<- as.list(Aclimatados[,c(124, 125, 166:184,
                                            186:194, 196:201)])
 
 Normalidad_aclimatados <- lapply(names(Datos_aclimatados), function (x)
@@ -76,7 +76,7 @@ names(Normalidad_acl_p) <- names(Datos_aclimatados)
 
 # 2.2.1 Todas las mujeres
 
-Datos_mujeres <- as.list(Mujeres[,c(11:17, 20:23, 27:30,32:38, 40:33, 46:49, 166:184,
+Datos_mujeres <- as.list(Mujeres[,c(124,  125,166:184,
                                     186:194, 196:199)])
 
 Normalidad_mujeres <- lapply(names(Datos_mujeres), function (x)
@@ -92,7 +92,7 @@ names(Normalidad_females_p) <- names(Datos_mujeres)
 # 2.2.2 Nativas
 
 
-Datos_nativas<- as.list(Nativas[,c(11:17, 20:23, 27:30,32:38, 40:33, 46:49, 166:184,
+Datos_nativas<- as.list(Nativas[,c(124, 125, 166:184,
                                     186:194, 196:199)])
 
 Normalidad_nativas <- lapply(names(Datos_nativas), function (x)
@@ -108,7 +108,7 @@ names(Normalidad_nata_p) <- names(Datos_nativas)
 
 # 2.2.3 Aclimatadas
 
-Datos_aclimatadas<- as.list(Aclimatadas[,c(11:17, 20:23, 27:30,32:38, 40:33, 46:49, 166:184,
+Datos_aclimatadas<- as.list(Aclimatadas[,c(124, 125, 166:184,
                                            186:194, 196:199)])
 
 Normalidad_aclimatadas <- lapply(names(Datos_aclimatadas), function (x)

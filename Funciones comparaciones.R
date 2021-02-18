@@ -1,22 +1,26 @@
 library(tidyr)
 library(dplyr)
 
-# Grupos
+Hombres <- read_excel("D:/Informacion/Escritorio/Valref_males.xlsx")
+Mujeres <- read_excel("D:/Informacion/Escritorio/Valref_females.xlsx")
 
-Nativos <- ValoresRev %>%
+
+# ----- 1. CREAR LOS GRUPOS ----  
+Nativos <- Hombres %>%
   filter(sex_sub_e1 == 1, alt_ada_e1 == 1)
 
-Aclimatados <- ValoresRev %>%
+Aclimatados <- Hombres %>%
   filter(sex_sub_e1 == 1, alt_ada_e1 == 0)
 
 
-Nativas <- ValoresRev %>%
+Nativas <- Mujeres %>%
   filter(sex_sub_e1 == 0, alt_ada_e1 == 1)
 
-Aclimatadas <- ValoresRev %>%
+Aclimatadas <- Mujeres %>%
   filter(sex_sub_e1 == 0, alt_ada_e1 == 0)
 
-# Comparafunction
+
+#---- 2. COMPARAFUNCTION ------
 
 Comparafunction <- function (x) {
   if (df_normalidad[[x]] < 0.05) {
@@ -48,102 +52,298 @@ Comparafunction <- function (x) {
   return(c(Varianzas, Method, diferencia, Conf_int_1, Conf_int_2, p_value))
 }
 
-# Nativos
 
-Datos_nativos<- as.list(Nativos[,c(11:30,32:38,40:49)])
+# ----- 3. APLICAR COMPARAFUNCTION ---------
+## Acá se requiere haber corrido el script de "Funciones Shapiro"
 
-lista_datos <- Datos_nativos
-df_normalidad <- Shap_nativos
+# 3.1 Hombres
 
-Comparaciones_nativos <- lapply(names(Datos_nativos), Comparafunction)
+# 3.1.1 Todos los hombres
 
-Comparaciones_nativos
+# 3.1.1.1 VO2 absoluto
+
+Datos_hombres_VO2 <- as.list(Hombres[,c(124, 166:184, 186:192)])
+
+lista_datos <- Datos_hombres_VO2
+df_normalidad <- Shap_males[,c(1,3:28)] # Esta lista viene del script "Funciones Shapiro"
+
+Comparaciones_males_VO2 <- lapply(names(Datos_hombres_VO2), Comparafunction)
+
+# 3.1.1.2 VO2 por kg
+
+Datos_hombres_VO2_kg <- as.list(Hombres [,c(125, 193, 194, 196:201)])
+
+lista_datos <- Datos_hombres_VO2_kg
+df_normalidad <- Shap_males[,c(2, 29:36)]
+
+Comparaciones_males_VO2_kg <- lapply(names(Datos_hombres_VO2_kg), Comparafunction)
+
+# 3.1.2 Nativos
+
+# 3.1.2.1 VO2 absoluto
+
+Datos_nativos_VO2<- as.list(Nativos[,c(124, 166:184, 186:192)])
+
+lista_datos <- Datos_nativos_VO2
+df_normalidad <- Shap_nativos[,c(1,3:28)]
+
+Comparaciones_nativos_VO2 <- lapply(names(Datos_nativos_VO2), Comparafunction)
+
+# 3.1.2.1 VO2 por kg
+
+Datos_nativos_VO2_kg <- as.list(Nativos [,c(125, 193, 194, 196:201)])
+
+lista_datos <- Datos_nativos_VO2_kg
+df_normalidad <- Shap_nativos[,c(2, 29:36)]
+
+Comparaciones_nativos_VO2_kg <- lapply(names(Datos_nativos_VO2_kg), Comparafunction)
+
+# 3.1.3 Aclimatados
+
+# 3.1.3.1 VO2 absoluto
+
+Datos_aclimatados_VO2<- as.list(Aclimatados[,c(124, 166:184, 186:192)])
+
+lista_datos <- Datos_aclimatados_VO2
+df_normalidad <- Shap_aclimatados[,c(1,3:28)]
 
 
-# Aclimatados
+Comparaciones_aclimatados_VO2 <- lapply(names(Datos_aclimatados_VO2), Comparafunction)
 
-Datos_aclimatados<- as.list(Aclimatados[,c(11:30,32:38,40:49)])
+# 3.1.2.1 VO2 por kg
 
-lista_datos <- Datos_aclimatados
-df_normalidad <- Shap_aclimatados
+Datos_aclimatados_VO2_kg <- as.list(Aclimatados [,c(125, 193, 194, 196:201)])
+
+lista_datos <- Datos_aclimatados_VO2_kg
+df_normalidad <- Shap_aclimatados[,c(2, 29:36)]
+
+Comparaciones_aclimatados_VO2_kg <- lapply(names(Datos_aclimatados_VO2_kg), Comparafunction)
+
+# 3.2 Mujeres
+
+# 3.2.1 Todas las mujeres
+
+# 3.2.1.1 VO2 absoluto
+
+Datos_mujeres_VO2 <- as.list(Mujeres[,c(124, 166:184, 186:192)])
+
+lista_datos <- Datos_mujeres_VO2
+df_normalidad <- Shap_females[,c(1,3:28)]
+
+Comparaciones_females_VO2 <- lapply(names(Datos_mujeres_VO2), Comparafunction)
+
+# 3.2.1.1 VO2 por kg
+
+Datos_mujeres_VO2_kg <- as.list(Mujeres [,c(125, 193, 194, 196:199)])
+
+lista_datos <- Datos_mujeres_VO2_kg
+df_normalidad <- Shap_females[,c(2, 29:34)]
+
+Comparaciones_females_VO2_kg <- lapply(names(Datos_mujeres_VO2_kg), Comparafunction)
 
 
-Comparaciones_aclimatados <- lapply(names(Datos_aclimatados), Comparafunction)
+# 3.2.2 Nativas
 
-# Nativas
+# 3.2.2.1 VO2 absoluto
+
+Datos_nativas_VO2<- as.list(Nativas[,c(124, 166:184, 186:192)])
+
+lista_datos <- Datos_nativas_VO2
+df_normalidad <- Shap_nativas[,c(1,3:28)]
+
+Comparaciones_nativas_VO2 <- lapply(names(Datos_nativas_VO2), Comparafunction)
+
+# 3.2.2.1 VO2 por kg
+
+Datos_nativas_VO2_kg <- as.list(Nativas [,c(125, 193, 194, 196:199)])
+
+lista_datos <- Datos_nativas_VO2_kg
+df_normalidad <- Shap_nativas[,c(2, 29:34)]
+
+Comparaciones_nativas_VO2_kg <- lapply(names(Datos_nativas_VO2_kg), Comparafunction)
+
+# 3.2.3 Aclimatadas
+
+# 3.2.2.1 VO2 absoluto
+
+Datos_aclimatadas_VO2 <- as.list(Aclimatadas[,c(124, 166:184, 186:192)])
+
+lista_datos <- Datos_aclimatadas_VO2
+df_normalidad <- Shap_aclimatadas[,c(1,3:28)]
+
+Comparaciones_aclimatadas_VO2 <- lapply(names(Datos_aclimatadas_VO2), Comparafunction)
+
+# 3.2.2.1 VO2 por kg
+
+Datos_aclimatadas_VO2_kg <- as.list(Aclimatadas [,c(125, 193, 194, 196:199)])
+
+lista_datos <- Datos_aclimatadas_VO2_kg
+df_normalidad <- Shap_aclimatadas[,c(2, 29:34)]
+
+Comparaciones_aclimatadas_VO2_kg <- lapply(names(Datos_aclimatadas_VO2_kg), Comparafunction)
 
 
-Datos_nativas<- as.list(Nativas[,c(11:30,32:39, 41:45, 48:49)])
+# ---- 4. CREAR LOS DATA FRAMES -----
 
-lista_datos <- Datos_nativas
-df_normalidad <- Shap_nativas
+# 4.1 Hombres
 
-Comparaciones_nativas <- lapply(names(Datos_nativas), Comparafunction)
+# 4.1.1 Todos los hombres
+
+nombres_males_VO2 <- names(Datos_hombres_VO2)
+
+Comp_males<- data.frame(simplify2array(Comparaciones_males_VO2))
+
+Comp_males <- Comp_males %>%
+  setNames(nombres_males_VO2)
+
+rownames(Comp_males) <- c("Varianza_N", "Método_N", "Diferencia_N", 
+                        "CI1_N", "CI2_N", "pvalue_N")
 
 
-# Aclimatadas
+nombres_males_VO2_kg <- names(Datos_hombres_VO2_kg)
 
-Datos_aclimatadas<- as.list(Aclimatadas[,c(11:30,32:39, 41:45, 48:49)])
+Comp_males_kg<- data.frame(simplify2array(Comparaciones_males_VO2_kg))
 
-lista_datos <- Datos_aclimatadas
-df_normalidad <- Shap_aclimatadas
+Comp_males_kg <- Comp_males_kg %>%
+  setNames(nombres_males_VO2_kg)
 
-Comparaciones_aclimatadas <- lapply(names(Datos_aclimatadas), Comparafunction)
+rownames(Comp_males_kg) <- c("Varianza_N", "Método_N", "Diferencia_N", 
+                          "CI1_N", "CI2_N", "pvalue_N")
 
-### Crear los data frames
+Comp_males_all<- bind_cols(Comp_males, Comp_males_kg)
 
-# Nativos
-nombres_nat <- names(Datos_nativos)
+# 4.1.2 Nativos
+nombres_nat_VO2 <- names(Datos_nativos_VO2)
 
-Comp_nat<- data.frame(simplify2array(Comparaciones_nativos))
+Comp_nat<- data.frame(simplify2array(Comparaciones_nativos_VO2))
 
 Comp_nat <- Comp_nat %>%
-  setNames(nombres_nat)
+  setNames(nombres_nat_VO2)
 
-rownames(Comp_nat) <- c("Varianza_N", "Método_N", "Diferencia_N", "CI1_N", "CI2_N", "pvalue_N")
+rownames(Comp_nat) <- c("Varianza_N", "Método_N", "Diferencia_N", 
+                        "CI1_N", "CI2_N", "pvalue_N")
 
+nombres_nat_VO2_kg <- names(Datos_nativos_VO2_kg)
 
-# Aclimatados
+Comp_nat_kg<- data.frame(simplify2array(Comparaciones_nativos_VO2_kg))
 
-nombres_acl <- names(Datos_aclimatados)
+Comp_nat_kg <- Comp_nat_kg %>%
+  setNames(nombres_nat_VO2_kg)
 
-Comp_acl<- data.frame(simplify2array(Comparaciones_aclimatados))
+rownames(Comp_nat_kg) <- c("Varianza_N", "Método_N", "Diferencia_N", 
+                        "CI1_N", "CI2_N", "pvalue_N")
+
+Comp_nat_all<- bind_cols(Comp_nat, Comp_nat_kg)
+
+# 4.1.3 Aclimatados
+
+nombres_acl_VO2 <- names(Datos_aclimatados_VO2)
+
+Comp_acl<- data.frame(simplify2array(Comparaciones_aclimatados_VO2))
 
 Comp_acl <- Comp_acl %>%
-  setNames(nombres_nat)
+  setNames(nombres_nat_VO2)
 
 rownames(Comp_acl) <- c("Varianza_A", "Método_A", "Diferencia_A", "CI1_A", "CI2_A", "pvalue_A")
 
 
-# Nativas
+nombres_acl_VO2_kg <- names(Datos_aclimatados_VO2_kg)
 
-nombres_nata <- names(Datos_nativas)
+Comp_acl_kg<- data.frame(simplify2array(Comparaciones_aclimatados_VO2_kg))
 
-Comp_nata<- data.frame(simplify2array(Comparaciones_nativas))
+Comp_acl_kg <- Comp_acl_kg %>%
+  setNames(nombres_nat_VO2_kg)
+
+rownames(Comp_acl_kg) <- c("Varianza_A", "Método_A", "Diferencia_A", 
+                           "CI1_A", "CI2_A", "pvalue_A")
+
+Comp_acl_all <- bind_cols(Comp_acl, Comp_acl_kg)
+
+# 4.2 Mujeres
+
+# 4.2.1 Todas las mujeres
+
+nombres_females_VO2 <- names(Datos_mujeres_VO2)
+
+Comp_females<- data.frame(simplify2array(Comparaciones_females_VO2))
+
+Comp_females <- Comp_females %>%
+  setNames(nombres_females_VO2)
+
+rownames(Comp_females) <- c("Varianza_N", "Método_N", "Diferencia_N", 
+                          "CI1_N", "CI2_N", "pvalue_N")
+
+
+nombres_females_VO2_kg <- names(Datos_mujeres_VO2_kg)
+
+Comp_females_kg<- data.frame(simplify2array(Comparaciones_females_VO2_kg))
+
+Comp_females_kg <- Comp_females_kg %>%
+  setNames(nombres_females_VO2_kg)
+
+rownames(Comp_females_kg) <- c("Varianza_N", "Método_N", "Diferencia_N", 
+                             "CI1_N", "CI2_N", "pvalue_N")
+
+Comp_females_all<- bind_cols(Comp_females, Comp_females_kg)
+
+
+# 4.2.2 Nativas
+
+nombres_nata_VO2 <- names(Datos_nativas_VO2)
+
+Comp_nata<- data.frame(simplify2array(Comparaciones_nativas_VO2))
 
 Comp_nata <- Comp_nata %>%
-  setNames(nombres_nata)
+  setNames(nombres_nata_VO2)
 
 rownames(Comp_nata) <- c("Varianza_N", "Método_N", "Diferencia_N", "CI1_N", "CI2_N", "pvalue_N")
 
-#Aclimatadas
+nombres_nata_VO2_kg <- names(Datos_nativas_VO2_kg)
 
-nombres_acla <- names(Datos_aclimatadas)
+Comp_nata_kg<- data.frame(simplify2array(Comparaciones_nativas_VO2_kg))
 
-Comp_acla<- data.frame(simplify2array(Comparaciones_aclimatadas))
+Comp_nata_kg <- Comp_nata_kg %>%
+  setNames(nombres_nata_VO2_kg)
+
+rownames(Comp_nata_kg) <- c("Varianza_N", "Método_N", "Diferencia_N", "CI1_N", "CI2_N", "pvalue_N")
+
+Comp_nata_all<- bind_cols(Comp_nata, Comp_nata_kg)
+
+
+# 4.2.3 Aclimatadas
+
+nombres_acla_VO2 <- names(Datos_aclimatadas_VO2)
+
+Comp_acla<- data.frame(simplify2array(Comparaciones_aclimatadas_VO2))
 
 Comp_acla <- Comp_acla %>%
-  setNames(nombres_acla)
+  setNames(nombres_acla_VO2)
 
-rownames(Comp_acla)  <- c("Varianza_A", "Método_A", "Diferencia_A", "CI1_A", "CI2_A", "pvalue_A")
+rownames(Comp_acla_VO2)  <- c("Varianza_A", "Método_A", "Diferencia_A", 
+                              "CI1_A", "CI2_A", "pvalue_A")
 
-##
 
-Hombres <- rbind(Comp_nat, Comp_acl)
-write.csv(Hombres, "Comparaciones_hombres.csv")
+nombres_acla_VO2_kg <- names(Datos_aclimatadas_VO2_kg)
 
-Mujeres <- rbind(Comp_nata, Comp_acla)
-write.csv(Mujeres, "Comparaciones_mujeres.csv")
+Comp_acla_kg<- data.frame(simplify2array(Comparaciones_aclimatadas_VO2_kg))
+
+Comp_acla_kg <- Comp_acla_kg %>%
+  setNames(nombres_acla_VO2_kg)
+
+rownames(Comp_acla_kg)  <- c("Varianza_A", "Método_A", 
+                                 "Diferencia_A", "CI1_A", "CI2_A", "pvalue_A")
+
+Comp_acla_all<- bind_cols(Comp_acla, Comp_acla_kg)
+
+
+# ------ 5. CREAR CSV ------
+write.csv(Comp_males_all, "Comparaciones_hombres_todos.csv")
+write.csv(Comp_nat_all, "Comparaciones_hombres_nativos.csv")
+write.csv(Comp_acl_all, "Comparaciones_hombres_aclimatados.csv")
+
+write.csv(Comp_females_all, "Comparaciones_mujeres_todos.csv")
+write.csv(Comp_nata_all, "Comparaciones_mujueres_nativos.csv")
+write.csv(Comp_acla_all, "Comparaciones_mujeres_aclimatados.csv")
 
 
 View(Hombres)
