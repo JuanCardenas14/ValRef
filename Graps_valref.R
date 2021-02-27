@@ -4,6 +4,7 @@ library(reshape2)
 library(tibble)
 library(tidyr)
 library(dplyr)
+library(stringr)
 
 # ---- 1. GRÁFICAS HOMBRES -----
 
@@ -81,6 +82,7 @@ Datos_hombres_VO2_kg_1 <- Datos_hombres_VO2_kg %>%
 
 Datos_hombres_VO2_kg_1$variable<- recode(Datos_hombres_VO2_kg_1$variable, 
                                       "vo2k_20s_x_pkr_dx"="Measured VO2pk-kg")
+
 
 plot_VO2_kg_males<- Datos_hombres_VO2_kg_1 %>% 
   ggplot(aes(variable, value, fill = real)) + 
@@ -187,6 +189,7 @@ Datos_mujeres_VO2_kg_1 <- Datos_mujeres_VO2_kg %>%
 Datos_mujeres_VO2_kg_1$variable<- recode(Datos_mujeres_VO2_kg_1$variable, 
                                          "vo2k_20s_x_pkr_dx"="Measured VO2pk-kg")
 
+
 plot_VO2_kg_females<- Datos_mujeres_VO2_kg_1 %>% 
   ggplot(aes(variable, value, fill = real)) + 
   geom_boxplot() +
@@ -210,3 +213,12 @@ plot_VO2_kg_females<- Datos_mujeres_VO2_kg_1 %>%
 ggsave(plot_VO2_kg_females, filename = "./Plots/plot_VO2_kg_females.png",
        dpi = "retina", width = 12, height = 6)
 
+
+### ------- Código extra ------------
+
+Datos_mujeres_VO2_kg_2 <- Datos_mujeres_VO2_kg_1 %>%
+  mutate (region = if_else (str_detect(variable,"Tammelin|Griga"), "Europe",
+                            if_else (str_detect (variable, "Itoh"), "Asia",
+                                     if_else (str_detect (variable, "Kokkinos"), "North America",
+                                              if_else(str_detect(variable, "Measured VO2"), "Measured VO2",
+                                                      "NA")))))

@@ -1,10 +1,9 @@
 library(ggmap)
 library(ggrepel)
+library(maps)
 
 
-Ecuaciones <- read_excel("E:/Informaciòn/Pictures/Downloads/Ecuaciones.xlsx")
-
-datas <- inner_join(a, datos)
+Ecuaciones <- read_excel("./Ecuaciones.xlsx")
 
 mapWorld <- borders("world", colour="white", fill="lightgrey")
 
@@ -16,7 +15,7 @@ ggplot(data = Ecuaciones, fill = Country) + mapWorld + geom_point(aes(x=Longitud
                                     paste("n =", n), sep = "\n") , 
                        fill = Country),
                    direction = "both",
-                   force = 25) +
+                   force = 25) + 
   theme_void() + labs(title = 
                         (expression(paste("Predictive equations for ",
                                           dot(V), "O", 2[max], 
